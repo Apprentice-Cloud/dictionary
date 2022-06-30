@@ -28,15 +28,11 @@ const dataProcessing = (result, word) => {
     document.querySelector(".example span").innerText =
       definitions.example ?? `No example available for ${word}`;
 
-    // 02. Synonyms not done
     let synonymlist = result[0].meanings[0].synonyms;
-    // console.log(synonymlist);
 
     for (var i = 0; i < synonymlist.length; i++) {
       let synonymli = document.createElement("span");
       synonymli.innerHTML = synonymlist[i];
-      console.log(synonymli);
-      console.log(synonyms);
       synonyms.appendChild(synonymli);
     }
   }
@@ -46,7 +42,7 @@ const queryApi = (word) => {
   infoText.style.color = "#000";
   wrapper.classList.remove("active");
   infoText.innerHTML = `Searching the meaning of <span>"${word}"</span>`;
-
+  synonyms.innerHTML = "";
   axios
     .get(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
     .then((res) => dataProcessing(res.data, word))
@@ -65,6 +61,7 @@ removeIcon.addEventListener("click", () => {
   infoText.style.color = "#9A9A9A";
   infoText.innerHTML =
     "Type any existing word and press enter to get meaning, example, synonyms, etc.";
+  synonyms.innerHTML = "";
   wrapper.classList.remove("active");
 });
 
